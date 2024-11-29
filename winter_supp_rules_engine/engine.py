@@ -8,24 +8,35 @@ class Priority(Enum):
     Medium = 2
     Low = 1
 
+def condition_eligibility(state):
+    return state["familyUnitInPayForDecember"]
+
+def action_eligibility(condition):
+    if condition:
+        return 60
+    else:
+        return 0
+
 class Rule:
-    def __init__(self, condition_name, condition, action, prioritity:Priority):
-        self.condition_name = condition_name
-        self.action = action
+    def __init__(self, condition, action, prioritity:Priority):
         self.condition = condition
+        # self.supplement_amount = supplement_amount
+        self.action = action
         self.priority = prioritity
     
-    # def condition(self, state):
-    #     # assume state is json parse into a dictionary
-    #     self.condition = state[self.condition_name]
+    def judge_condition(self, state):
+        # assume state is json parse into a dictionary
+        self.condition_bool = self.condition(state)
     
-    # def action
+    def action(self):
+        self.judge_condition()
+        return self.action(self.condition_bool)
 
 
-Rule_Eligiblity = Rule("Eligibility", "familyUnitInPayForDecember", "*1 or *0", Priority.High)
-Rule_Have_Child = Rule("Have_Child", "Bool", "120", Priority.Medium)
-Rule_Couple = Rule("Couple", "Bool", "60 or 120", Priority.Low)
-Rule_Child_Count = Rule("Child_Count", "Mulitiply", "20 per child", Priority.Low)
+Rule_Eligiblity = Rule(condition_eligibility, action_eligibility, Priority.High)
+# Rule_Have_Child = Rule("Have_Child", "Bool", "120", Priority.Medium)
+# Rule_Couple = Rule("Couple", "Bool", "60 or 120", Priority.Low)
+# Rule_Child_Count = Rule("Child_Count", "Mulitiply", "20 per child", Priority.Low)
         
 class winter_supplement_rule_engine():
     def __init__(self, *rules):
@@ -40,12 +51,7 @@ class winter_supplement_rule_engine():
                 return rule.action(state)
 
 Engine = winter_supplement_rule_engine()
+Engine.add_rule(Rule_Eligiblity)
 
-#Eligible
-# Engine.add_rule(Rule({"familyUnitInPayForDecember==False"}, {"isEligible":False, "baseAmount":0, "supplementAmount":0})) #short-circuit 
-# #Single
-# Engine.add_rule(Rule({"familyUnitInPayForDecember==True", "familyComposition==single", "dependent=int:n"}, {"isEligible":True, "baseAmount":60,"supplementAmount":20}))
-# #Couple
-# Engine.add_rule(Rule({"familyUnitInPayForDecember==True", "familyComposition==couple", "dependent=int:n"}, {"isEligible":True, "baseAmount":120,"supplementAmount":20}))
-
-print(Engine.rules)
+state = {"familyUnitInPayForDecember":True}
+print(Engine.run(state))
