@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "winter-supplement-rule-engine"
+version = "0.1.0"
+description = ""
+authors = ["Yurui-Feng <yurifeng@bu.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+paho-mqtt = "^2.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
