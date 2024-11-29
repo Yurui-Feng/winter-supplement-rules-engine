@@ -9,19 +9,25 @@ class Priority(Enum):
     Low = 1
 
 class Rule:
-    def __init__(self, condition_name, condition_type, action, depends_on=None):
+    def __init__(self, condition_name, condition, action, prioritity:Priority):
         self.condition_name = condition_name
         self.action = action
-        self.condition_type = condition_type
-        self.depends_on = depends_on
-        # self.priority = prioritity
+        self.condition = condition
+        self.priority = prioritity
+    
+    # def condition(self, state):
+    #     # assume state is json parse into a dictionary
+    #     self.condition = state[self.condition_name]
+    
+    # def action
 
-Rule_Eligiblity = Rule("Eligibility", "Bool", "*1 or *0")
-Rule_Have_Child = Rule("Have_Child", "Bool", "120", {Rule_Eligiblity})
-Rule_Couple = Rule("Couple", "Bool", "60 or 120", {Rule_Eligiblity})
-Rule_Child_Count = Rule("Child_Count", "Mulitiply", "20 per child", {Rule_Eligiblity, Rule_Have_Child})
+
+Rule_Eligiblity = Rule("Eligibility", "familyUnitInPayForDecember", "*1 or *0", Priority.High)
+Rule_Have_Child = Rule("Have_Child", "Bool", "120", Priority.Medium)
+Rule_Couple = Rule("Couple", "Bool", "60 or 120", Priority.Low)
+Rule_Child_Count = Rule("Child_Count", "Mulitiply", "20 per child", Priority.Low)
         
-class WinterSupplementRuleEngine():
+class winter_supplement_rule_engine():
     def __init__(self, *rules):
         self.rules = set(rules)
     
@@ -33,7 +39,7 @@ class WinterSupplementRuleEngine():
             if rule.condition(state):
                 return rule.action(state)
 
-Engine = WinterSupplementRuleEngine()
+Engine = winter_supplement_rule_engine()
 
 #Eligible
 # Engine.add_rule(Rule({"familyUnitInPayForDecember==False"}, {"isEligible":False, "baseAmount":0, "supplementAmount":0})) #short-circuit 
