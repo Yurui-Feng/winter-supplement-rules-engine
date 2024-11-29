@@ -8,35 +8,54 @@ class Priority(Enum):
     Medium = 2
     Low = 1
 
-def condition_eligibility(state):
+def get_priority_value(item):
+    return item.priority.value
+
+def condition_eligibility(state:dict):
     return state["familyUnitInPayForDecember"]
 
-def action_eligibility(condition):
-    if condition:
-        return 60
+def action_eligibility(state:dict):
+    return 60
+
+def condition_children_count(state:dict):
+    children_count = state["numberOfChildren"]
+    return children_count > 0
+
+def action_children_count(state:dict):
+    children_count = state["numberOfChildren"]
+    return 120 + 20 * children_count
+
+def condition_couple_family(state:dict):
+    if state["familyComposition"] == "couple":
+        return True
     else:
-        return 0
+        return False
+
+def action_couple_family(state:dict):
+    return 120
+
 
 class Rule:
-    def __init__(self, condition, action, prioritity:Priority):
+    def __init__(self, condition, action, priority:Priority):
         self.condition = condition
         # self.supplement_amount = supplement_amount
         self.action = action
-        self.priority = prioritity
+        self.priority = priority
+        # self.condition_bool = None
     
-    def judge_condition(self, state):
-        # assume state is json parse into a dictionary
-        self.condition_bool = self.condition(state)
+    # def judge_condition(self, state):
+    #     # assume state is json parse into a dictionary
+    #     self.condition_bool = self.condition(state)
+    #     return self.condition_bool
     
-    def action(self):
-        self.judge_condition()
-        return self.action(self.condition_bool)
+    # def perform_action(self, state):
+    #     self.judge_condition(state)
+    #     return self.action(self.condition_bool)
 
 
 Rule_Eligiblity = Rule(condition_eligibility, action_eligibility, Priority.High)
-# Rule_Have_Child = Rule("Have_Child", "Bool", "120", Priority.Medium)
-# Rule_Couple = Rule("Couple", "Bool", "60 or 120", Priority.Low)
-# Rule_Child_Count = Rule("Child_Count", "Mulitiply", "20 per child", Priority.Low)
+Rule_Child_Count = Rule(condition_children_count, action_children_count, Priority.Medium)
+Rule_Couple = Rule(condition_couple_family, action_couple_family, Priority.Low)
         
 class winter_supplement_rule_engine():
     def __init__(self, *rules):
@@ -46,12 +65,23 @@ class winter_supplement_rule_engine():
         self.rules.add(rule)
     
     def run(self,state):
-        for rule in self.rules:
+        supplement_amount = 0
+        #Use sorted to return a list and make sure high priorities are iterated first for short-circuit
+        rules_list = sorted(self.rules, key=get_priority_value, reverse=True)
+        for rule in rules_list:
+            #short-circuit for the eligibility criterion
+            if rule.priority == Priority.High:
+                if rule.condition(state) == False:
+                    return supplement_amount
             if rule.condition(state):
-                return rule.action(state)
+                supplement_amount = max(supplement_amount, rule.action(state))
+        
+        return supplement_amount
 
 Engine = winter_supplement_rule_engine()
 Engine.add_rule(Rule_Eligiblity)
+Engine.add_rule(Rule_Child_Count)
+Engine.add_rule(Rule_Couple)
 
-state = {"familyUnitInPayForDecember":True}
+state = {"familyUnitInPayForDecember":True, "familyComposition":"single", "numberOfChildren":0}
 print(Engine.run(state))
