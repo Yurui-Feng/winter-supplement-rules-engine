@@ -6,5 +6,5 @@ engine.add_rule(Rule_Eligiblity)
 engine.add_rule(Rule_Child_Count)
 engine.add_rule(Rule_Couple)
 
-state = {"familyUnitInPayForDecember":True, "familyComposition":"single", "numberOfChildren":0}
+state = {"familyUnitInPayForDecember":True, "familyComposition":"couple", "numberOfChildren":1}
 print(engine.run(state))

@@ -24,6 +24,6 @@ def condition_couple_family(state:dict):
 def action_couple_family(state:dict):
     return 120
 
-Rule_Eligiblity = Rule(condition_eligibility, action_eligibility, Priority.High)
-Rule_Child_Count = Rule(condition_children, action_children_count, Priority.Medium)
+Rule_Eligiblity = Rule(condition_eligibility, action_eligibility, Priority.High, stop_on_false=True)
+Rule_Child_Count = Rule(condition_children, action_children_count, Priority.Medium, stop_on_true=True)
 Rule_Couple = Rule(condition_couple_family, action_couple_family, Priority.Low)

@@ -9,10 +9,12 @@ class Priority(Enum):
     Low = 1
 
 class Rule:
-    def __init__(self, condition: Callable, action: Callable, priority:Priority):
+    def __init__(self, condition: Callable, action: Callable, priority:Priority, stop_on_false:bool=False, stop_on_true:bool=False):
         self.condition = condition
         self.action = action
         self.priority = priority
+        self.stop_on_false = stop_on_false
+        self.stop_on_true = stop_on_true
 
 def get_priority_value(item):
     return item.priority.value
@@ -30,10 +32,12 @@ class WinterSupplementRulesEngine():
         rules_list = sorted(self.rules, key=get_priority_value, reverse=True)
         for rule in rules_list:
             #short-circuit for the eligibility OR family have children
-            #since order is always from high-to-low, it will short-circuit on the correct condition
-            if rule.priority == Priority.High or rule.priority == Priority.Medium:
-                if rule.condition(state) == False:
-                    return supplement_amount
+            if rule.stop_on_false and not rule.condition(state):
+                return supplement_amount
+            elif rule.stop_on_true and rule.condition(state):
+                supplement_amount = rule.action(state)
+                return supplement_amount
+
             if rule.condition(state):
                 supplement_amount = rule.action(state)
         
