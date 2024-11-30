@@ -1,5 +1,6 @@
 # from rule import Rule
 from enum import Enum
+from typing import Callable
 
 #priority functions similiar to a short circuit logic
 #e.g. Egilibility has high priority where the rest have low priority
@@ -17,7 +18,7 @@ def condition_eligibility(state:dict):
 def action_eligibility(state:dict):
     return 60
 
-def condition_children_count(state:dict):
+def condition_children(state:dict):
     children_count = state["numberOfChildren"]
     return children_count > 0
 
@@ -34,27 +35,14 @@ def condition_couple_family(state:dict):
 def action_couple_family(state:dict):
     return 120
 
-
 class Rule:
-    def __init__(self, condition, action, priority:Priority):
+    def __init__(self, condition: Callable, action: Callable, priority:Priority):
         self.condition = condition
-        # self.supplement_amount = supplement_amount
         self.action = action
         self.priority = priority
-        # self.condition_bool = None
-    
-    # def judge_condition(self, state):
-    #     # assume state is json parse into a dictionary
-    #     self.condition_bool = self.condition(state)
-    #     return self.condition_bool
-    
-    # def perform_action(self, state):
-    #     self.judge_condition(state)
-    #     return self.action(self.condition_bool)
-
 
 Rule_Eligiblity = Rule(condition_eligibility, action_eligibility, Priority.High)
-Rule_Child_Count = Rule(condition_children_count, action_children_count, Priority.Medium)
+Rule_Child_Count = Rule(condition_children, action_children_count, Priority.Medium)
 Rule_Couple = Rule(condition_couple_family, action_couple_family, Priority.Low)
         
 class winter_supplement_rule_engine():
