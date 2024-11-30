@@ -17,7 +17,7 @@ class Rule:
 def get_priority_value(item):
     return item.priority.value
         
-class winter_supplement_rule_engine():
+class WinterSupplementRulesEngine():
     def __init__(self, *rules):
         self.rules = set(rules)
     

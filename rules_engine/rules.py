@@ -1,5 +1,5 @@
 #This file defines the business rules
-from engine import Rule, Priority
+from .engine import Rule, Priority
 
 def condition_eligibility(state:dict):
     return state["familyUnitInPayForDecember"]
