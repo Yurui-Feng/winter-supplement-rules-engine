@@ -57,12 +57,13 @@ class winter_supplement_rule_engine():
         #Use sorted to return a list and make sure high priorities are iterated first for short-circuit
         rules_list = sorted(self.rules, key=get_priority_value, reverse=True)
         for rule in rules_list:
-            #short-circuit for the eligibility criterion
-            if rule.priority == Priority.High:
+            #short-circuit for the eligibility OR family have children
+            #since order is always from high-to-low, it will short-circuit on the correct condition
+            if rule.priority == Priority.High or rule.priority == Priority.Medium:
                 if rule.condition(state) == False:
                     return supplement_amount
             if rule.condition(state):
-                supplement_amount = max(supplement_amount, rule.action(state))
+                supplement_amount = rule.action(state)
         
         return supplement_amount
 
@@ -71,5 +72,5 @@ Engine.add_rule(Rule_Eligiblity)
 Engine.add_rule(Rule_Child_Count)
 Engine.add_rule(Rule_Couple)
 
-state = {"familyUnitInPayForDecember":True, "familyComposition":"single", "numberOfChildren":0}
+state = {"familyUnitInPayForDecember":True, "familyComposition":"couple", "numberOfChildren":2}
 print(Engine.run(state))
