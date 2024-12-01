@@ -12,25 +12,25 @@ class TestEngine(TestCase):
     
     def test_engine_not_eligible(self):
         state = {"familyUnitInPayForDecember":False, "familyComposition":"single", "numberOfChildren":0}
-        self.assertEqual(self.engine.run(state), 0)
+        self.assertEqual(self.engine.run(state),{'isEligible': False, 'baseAmount': 0, 'childrenAmount': 0, 'supplementAmount': 0})
 
     def test_engine_with_single(self):
         state = {"familyUnitInPayForDecember":True, "familyComposition":"single", "numberOfChildren":0}
-        self.assertEqual(self.engine.run(state), 60)
+        self.assertEqual(self.engine.run(state),{'isEligible': True, 'baseAmount': 60, 'childrenAmount': 0, 'supplementAmount': 60})
     
     def test_engine_with_couple(self):
         state = {"familyUnitInPayForDecember":True, "familyComposition":"couple", "numberOfChildren":0}
-        self.assertEqual(self.engine.run(state), 120)
+        self.assertEqual(self.engine.run(state),{'isEligible': True, 'baseAmount': 120, 'childrenAmount': 0, 'supplementAmount': 120})
     
     def test_engine_with_couple_and_child(self):
         state = {"familyUnitInPayForDecember":True, "familyComposition":"couple", "numberOfChildren":1}
-        self.assertEqual(self.engine.run(state), 140)
+        self.assertEqual(self.engine.run(state),{'isEligible': True, 'baseAmount': 120, 'childrenAmount': 20, 'supplementAmount': 140})
     
     def test_engine_with_couple_and_two_children(self):
         state = {"familyUnitInPayForDecember":True, "familyComposition":"couple", "numberOfChildren":2}
-        self.assertEqual(self.engine.run(state), 160)
+        self.assertEqual(self.engine.run(state),{'isEligible': True, 'baseAmount': 120, 'childrenAmount': 40, 'supplementAmount': 160})
     
     def test_engine_with_single_and_child(self):
         state = {"familyUnitInPayForDecember":True, "familyComposition":"single", "numberOfChildren":1}
-        self.assertEqual(self.engine.run(state), 140)
+        self.assertEqual(self.engine.run(state),{'isEligible': True, 'baseAmount': 120, 'childrenAmount': 20, 'supplementAmount': 140})
 

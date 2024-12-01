@@ -27,18 +27,18 @@ class WinterSupplementRulesEngine():
         self.rules.add(rule)
     
     def run(self,state):
-        supplement_amount = 0
+        results = {"isEligible": False, "baseAmount": 0, "childrenAmount": 0, "supplementAmount": 0}
         #Use sorted to return a list and make sure high priorities are iterated first for short-circuit
         rules_list = sorted(self.rules, key=get_priority_value, reverse=True)
         for rule in rules_list:
             #short-circuit for the eligibility OR family have children
             if rule.stop_on_false and not rule.condition(state):
-                return supplement_amount
+                return results
             elif rule.stop_on_true and rule.condition(state):
-                supplement_amount = rule.action(state)
-                return supplement_amount
+                rule.action(state, results)
+                return results
 
             if rule.condition(state):
-                supplement_amount = rule.action(state)
+                rule.action(state, results)
         
-        return supplement_amount
+        return results
