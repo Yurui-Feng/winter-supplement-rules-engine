@@ -28,7 +28,7 @@ def action_children_count(state:dict, results:dict):
     Sets the base amount and children amount if there are children
     """
     children_count = state["numberOfChildren"]
-    results["baseAmount"] = BASE_AMOUNT_SINGLE
+    results["baseAmount"] = BASE_AMOUNT_COUPLE
     results["childrenAmount"] = CHILD_AMOUNT * children_count
     results["supplementAmount"] = results["baseAmount"] + results["childrenAmount"]
     return

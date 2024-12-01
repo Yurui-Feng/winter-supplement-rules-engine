@@ -40,7 +40,7 @@ class TestMQTTWrapperOnMessage(unittest.TestCase):
         output = self.engine.run(input_data)
 
         # Parse the expected output data
-        expected_output = {"isEligible": True, "baseAmount": 120, "childrenAmount": 20, "supplementAmount": 140}
+        expected_output = {"isEligible": True, "baseAmount": 120.0, "childrenAmount": 20.0, "supplementAmount": 140.0}
 
         # Assert that the output is as expected
         self.assertEqual(output, expected_output)

@@ -46,9 +46,9 @@ class WinterSupplementRulesEngine():
         :return: A dictionary containing the results of the rules engine.
         """
         results = {"isEligible": False, 
-                   "baseAmount": 0, 
-                   "childrenAmount": 0, 
-                   "supplementAmount": 0
+                   "baseAmount": 0.0,
+                   "childrenAmount": 0.0, 
+                   "supplementAmount": 0.0
         }
         #Use sorted to return a list and make sure high priorities are iterated first for short-circuit
         rules_list = sorted(self.rules, key=get_priority_value, reverse=True)
