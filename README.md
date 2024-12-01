@@ -19,12 +19,6 @@
   2. Install dependencies:
 
      ```bash
-     pip install -r requirements.txt
-     ```
-
-     *Alternatively, if using Poetry:*
-
-     ```bash
      poetry install
      ```
 
