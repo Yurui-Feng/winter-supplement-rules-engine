@@ -1,6 +1,6 @@
 # Winter Supplement Rules Engine
 
-[![Python Tests](https://github.com/Yurui-Feng/winter-supplement-rules-engine/actions/workflows/python-tests.yml/badge.svg)](https://github.com/Yurui-Feng/winter-supplement-rules-engine/actions/workflows/python-tests.yml)
+[![Python Tests](https://github.com/Yurui-Feng/winter-supplement-rules-engine/actions/workflows/python-test.yml/badge.svg)](https://github.com/Yurui-Feng/winter-supplement-rules-engine/actions/workflows/python-tests.yml)
 [![codecov](https://codecov.io/gh/Yurui-Feng/winter-supplement-rules-engine/branch/main/graph/badge.svg)](https://codecov.io/gh/Yurui-Feng/winter-supplement-rules-engine)
 
 ## Project Overview
