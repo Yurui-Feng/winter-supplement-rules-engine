@@ -6,7 +6,7 @@ from paho.mqtt.client import Client
 from paho.mqtt.enums import CallbackAPIVersion
 
 # MQTT Wrapper Class for the Rules Engine
-class MQTTWrapper(WinterSupplementRulesEngine):
+class MQTTWinterSupplementRulesEngine(WinterSupplementRulesEngine):
     """
     A wrapper class for the WinterSupplementRulesEngine that adds MQTT functionality.
     """
@@ -50,6 +50,7 @@ class MQTTWrapper(WinterSupplementRulesEngine):
     
     def on_message(self, client, userdata, msg):
         try:
+            print(f"Received `{msg.payload}` from `{msg.topic}` topic")
             # Decode the input message
             input_str = msg.payload.decode()
             input_data = json.loads(input_str)
@@ -67,6 +68,7 @@ class MQTTWrapper(WinterSupplementRulesEngine):
     def publish(self, output_data: dict):
         try:
             output_msg = json.dumps(output_data)
+            print(f"Publishing `{output_msg}` to topic `{self.topic_output}`")
             result = self.client.publish(self.topic_output, output_msg)
             status = result[0]
             if status == 0:
