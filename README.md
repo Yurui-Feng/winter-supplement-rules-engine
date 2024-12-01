@@ -47,3 +47,20 @@ A rules engine that determines client eligibility for the Winter Supplement and 
    ```
 
    Replace `TOPIC_ID` with the topic ID from the Winter Supplement Calculator web application.
+
+## Running Tests
+
+1. Ensure you're in the Poetry virtual environment:
+   ```bash
+   poetry shell
+   ```
+
+2. Run all tests:
+   ```bash
+   pytest
+   ```
+
+3. Run tests with coverage report:
+   ```bash
+   pytest --cov=rules_engine
+   ```
