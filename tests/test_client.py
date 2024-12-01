@@ -16,7 +16,16 @@ class TestMQTTWrapperInitialization(unittest.TestCase):
         self.assertIsNotNone(engine.client)
         self.assertTrue(len(engine.rules) > 0)
 
-# There are no tests for the on_connect method because it is a callback method
+class TestMQTTWrapperOnConnect(unittest.TestCase):
+    def test_on_connect(self):
+        # Mock the client object and its methods
+        self.engine = MQTTWinterSupplementRulesEngine("test-topic")
+        self.engine.client = Mock()
+
+        # Test connection
+        self.engine.on_connect(self.engine.client, None, None, 0, None)
+
+        self.engine.client.subscribe.assert_called_once_with(self.engine.topic_input)
 
 class TestMQTTWrapperOnMessage(unittest.TestCase):
     def setUp(self):
