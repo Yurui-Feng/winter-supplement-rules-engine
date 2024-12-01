@@ -45,6 +45,16 @@ class WinterSupplementRulesEngine():
         :param state: A dictionary representing the client's state.
         :return: A dictionary containing the results of the rules engine.
         """
+        #Validate inputs
+        if not isinstance(state["numberOfChildren"], int):
+            raise TypeError("numberOfChildren must be an integer")
+        if state["numberOfChildren"] < 0:
+            raise ValueError("numberOfChildren cannot be negative")
+        if not isinstance(state["familyUnitInPayForDecember"], bool):
+            raise TypeError("familyUnitInPayForDecember must be a boolean")
+        if state["familyComposition"] not in ["single", "couple"]:
+            raise ValueError("familyComposition must be either single or couple")
+        
         results = {"isEligible": False, 
                    "baseAmount": 0.0,
                    "childrenAmount": 0.0, 

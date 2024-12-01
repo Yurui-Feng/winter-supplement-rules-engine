@@ -33,4 +33,19 @@ class TestEngine(TestCase):
     def test_engine_with_single_and_child(self):
         state = {"familyUnitInPayForDecember":True, "familyComposition":"single", "numberOfChildren":1}
         self.assertEqual(self.engine.run(state),{'isEligible': True, 'baseAmount': 120.0, 'childrenAmount': 20.0, 'supplementAmount': 140.0})
+    
+    def test_engine_negative_children(self):
+       state = {"familyUnitInPayForDecember": True, "familyComposition": "single", "numberOfChildren": -1}
+       with self.assertRaises(ValueError):
+           self.engine.run(state)
+
+    def test_engine_missing_fields(self):
+       state = {"familyComposition": "single", "numberOfChildren": 0}
+       with self.assertRaises(KeyError):
+           self.engine.run(state)
+    
+    def test_engine_non_integer_children(self):
+       state = {"familyUnitInPayForDecember": True, "familyComposition": "single", "numberOfChildren": 2.5}
+       with self.assertRaises(TypeError):
+           self.engine.run(state)
 
