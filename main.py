@@ -1,5 +1,6 @@
 import random
 import json
+import argparse
 from paho.mqtt.client import Client
 from paho.mqtt.enums import CallbackAPIVersion
 from rules_engine.engine import WinterSupplementRulesEngine
@@ -10,7 +11,13 @@ broker_url = "test.mosquitto.org"
 port = 1883
 client_id = f'rules-engine-{random.randint(0,1000)}'
 
-topic_id = "8b4a8cf8-5b53-4aa9-b139-23d434713094"
+# Argument parser setup
+parser = argparse.ArgumentParser(description='Winter Supplement Rules Engine')
+parser.add_argument('--topic-id', type=str, required=True, help='MQTT topic ID from the web application')
+args = parser.parse_args()
+
+# Topic setup
+topic_id = args.topic_id
 topic_prefix_input = "BRE/calculateWinterSupplementInput/"
 topic_prefix_output = "BRE/calculateWinterSupplementOutput/"
 topic_input = topic_prefix_input + topic_id
