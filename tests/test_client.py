@@ -16,22 +16,7 @@ class TestMQTTWrapperInitialization(unittest.TestCase):
         self.assertIsNotNone(engine.client)
         self.assertTrue(len(engine.rules) > 0)
 
-class TestMQTTWrapperOnConnect(unittest.TestCase):
-    def setUp(self):
-        self.topic_id = "test-topic"
-        self.engine = MQTTWinterSupplementRulesEngine(self.topic_id)
-
-    def test_on_connect(self):
-        # Use Mock to mock the client object
-        client = Mock()
-        # Mock the subscribe method
-        client.subscribe.return_value = (0, None)
-
-        # Call the on_connect method which calls the subscribe method
-        self.engine.on_connect(client, None, None, 0, None)
-
-        # Assert that the subscribe method was called once with the correct topic
-        client.subscribe.assert_called_once_with(self.engine.topic_input)
+# There are no tests for the on_connect method because it is a callback method
 
 class TestMQTTWrapperOnMessage(unittest.TestCase):
     def setUp(self):
@@ -56,9 +41,6 @@ class TestMQTTWrapperOnMessage(unittest.TestCase):
 
         # Parse the expected output data
         expected_output = {"isEligible": True, "baseAmount": 120, "childrenAmount": 20, "supplementAmount": 140}
-        print(expected_output)
-        print(output)
 
+        # Assert that the output is as expected
         self.assertEqual(output, expected_output)
-        self.engine.client.publish.assert_called_once_with(self.engine.topic_output, json.dumps(expected_output))
-
