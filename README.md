@@ -67,3 +67,33 @@ A rules engine that determines client eligibility for the Winter Supplement and 
    ```bash
    pytest --cov=rules_engine
    ```
+
+## Design and Architecture
+
+The Winter Supplement Rules Engine is designed with modularity and separation of concerns in mind.
+
+### 1. **Rules (`rules.py`)**
+
+- **Purpose**: Defines individual business logic rules that determine eligibility and calculate supplement amounts.
+- **Components**:
+  - `Rule_Eligibility`: Checks if the client is eligible based on `familyUnitInPayForDecember`.
+  - `Rule_Couple`: Determines the base amount for couples.
+  - `Rule_Child_Count`: Calculates additional amounts based on the number of children.
+
+**Reasoning**: By encapsulating each rule in its own class, it's easier to add, modify, or remove rules without affecting other parts of the system. 
+
+### 2. **Engine (`engine.py`)**
+
+- **Purpose**: Manages and executes the business rules in order of their priority.
+- **Components**:
+  - `WinterSupplementRulesEngine`: Aggregates rules, validates input data, and produces the final eligibility and supplement calculations.
+
+**Reasoning**: Separating the engine logic from the rules allows for a clear workflow where the engine orchestrates rule execution.
+
+### 3. **MQTT Wrapper (`mqtt_wrapper.py`)**
+
+- **Purpose**: Integrates the rules engine with MQTT functionalities to handle real-time messaging.
+- **Components**:
+  - `MQTTWinterSupplementRulesEngine`: Extends the `WinterSupplementRulesEngine` by adding MQTT connectivity, handling incoming messages, and publishing results.
+
+**Reasoning**: Encapsulating MQTT-related code within a wrapper class ensures that communication logic is isolated from actual business logic.
