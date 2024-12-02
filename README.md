@@ -68,6 +68,26 @@ A rules engine that determines client eligibility for the Winter Supplement and 
    pytest --cov=rules_engine
    ```
 
+## Project Structure
+
+```
+winter-supplement-rule-engine/
+├── rules_engine/
+│   ├── __init__.py
+│   ├── engine.py
+│   ├── rules.py
+│   └── mqtt_wrapper.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_engine.py
+│   ├── test_rules.py
+│   └── test_mqtt_wrapper.py
+├── main.py
+├── pyproject.toml
+├── requirements.txt
+└── README.md
+```
+
 ## Design and Architecture
 
 The Winter Supplement Rules Engine is designed with modularity and separation of concerns in mind.
