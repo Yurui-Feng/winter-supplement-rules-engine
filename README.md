@@ -37,36 +37,43 @@ A rules engine that determines client eligibility for the Winter Supplement and 
    poetry install
    ```
 
+4. Alternatively, install dependencies using `requirements.txt`:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
 ## Running the Application
 
-1. Activate the Poetry virtual environment:
-   ```bash
-   poetry shell
-   ```
+### Using Poetry (Recommended)
 
-2. Run the rules engine with a specific MQTT topic ID:
-   ```bash
-   python main.py --topic-id TOPIC_ID
-   ```
+Use the following commands to run the application and test:
+```bash
+# Run the application
+poetry run python main.py --topic-id YOUR_TOPIC_ID
 
-   Replace `TOPIC_ID` with the topic ID from the Winter Supplement Calculator web application.
+# Run tests
+poetry run pytest
+```
 
-## Running Tests
+### Using venv
 
-1. Ensure you're in the Poetry virtual environment:
-   ```bash
-   poetry shell
-   ```
+Activate the virtual environment:
+```bash
+# On Windows:
+.\venv\Scripts\activate
 
-2. Run all tests:
-   ```bash
-   pytest
-   ```
+# On macOS/Linux:
+source venv/bin/activate
+```
 
-3. Run tests with coverage report:
-   ```bash
-   pytest --cov=rules_engine
-   ```
+Then run commands directly:
+```bash
+python main.py --topic-id YOUR_TOPIC_ID
+pytest
+python your_script.py
+```
 
 ## Project Structure
 
