@@ -124,3 +124,6 @@ The Winter Supplement Rules Engine is designed with modularity and separation of
   - `MQTTWinterSupplementRulesEngine`: Extends the `WinterSupplementRulesEngine` by adding MQTT connectivity, handling incoming messages, and publishing results.
 
 **Reasoning**: Encapsulating MQTT-related code within a wrapper class ensures that communication logic is isolated from actual business logic.
+
+## References
+- [How to use MQTT in Python](https://www.emqx.com/en/blog/how-to-use-mqtt-in-python)
