@@ -75,6 +75,48 @@ pytest
 python your_script.py
 ```
 
+## MQTT Message Examples
+
+### Message Flow
+
+The rules engine processes messages in the following sequence:
+
+1. **Receives Input**: Listens for messages on the input topic
+2. **Processes Rules**: Applies eligibility and calculation rules
+3. **Publishes Output**: Sends results to the output topic
+
+### Example Message Exchange
+
+#### Input Message
+```json
+{
+    "familyUnitInPayForDecember": false,
+    "familyComposition": "single",
+    "numberOfChildren": 0,
+    "id": "test-id"
+}
+```
+Topic: `BRE/calculateWinterSupplementInput/<topic-id>`
+
+#### Output Message
+```json
+{
+    "isEligible": false,
+    "baseAmount": 0.0,
+    "childrenAmount": 0.0,
+    "supplementAmount": 0.0,
+    "id": "test-id"
+}
+```
+Topic: `BRE/calculateWinterSupplementOutput/<topic-id>`
+
+### Terminal Output
+```
+Received `{'familyUnitInPayForDecember': true, 'familyComposition': 'single', 'numberOfChildren': 0, 'id': 'test-id'}` from `BRE/calculateWinterSupplementInput/<topic-id>` topic
+Publishing `{"isEligible": true, "baseAmount": 60.0, "childrenAmount": 0.0, "supplementAmount": 60.0, "id": "test-id"}` to topic `BRE/calculateWinterSupplementOutput/<topic-id>`
+Send `{"isEligible": true, "baseAmount": 60.0, "childrenAmount": 0.0, "supplementAmount": 60.0, "id": "test-id"}` to topic `BRE/calculateWinterSupplementOutput/<topic-id>`
+```
+
 ## Project Structure
 
 ```
