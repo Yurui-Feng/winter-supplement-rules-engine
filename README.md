@@ -90,7 +90,7 @@ The rules engine processes messages in the following sequence:
 #### Input Message
 ```json
 {
-    "familyUnitInPayForDecember": false,
+    "familyUnitInPayForDecember": true,
     "familyComposition": "single",
     "numberOfChildren": 0,
     "id": "test-id"
@@ -101,10 +101,10 @@ Topic: `BRE/calculateWinterSupplementInput/<topic-id>`
 #### Output Message
 ```json
 {
-    "isEligible": false,
-    "baseAmount": 0.0,
+    "isEligible": true,
+    "baseAmount": 60.0,
     "childrenAmount": 0.0,
-    "supplementAmount": 0.0,
+    "supplementAmount": 60.0,
     "id": "test-id"
 }
 ```
